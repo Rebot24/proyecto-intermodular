@@ -1,0 +1,18 @@
+[
+  {
+    "id_reserva_local": 47,
+    "id_recurso": 3,
+    "fecha": "2026-07-10",
+    "hora_inicio": "10:00",
+    "hora_fin": "11:30",
+    "coste": 18.00
+  },
+  {
+    "id_reserva_local": 51,
+    "id_recurso": 7,
+    "fecha": "2026-07-15",
+    "hora_inicio": "18:00",
+    "hora_fin": "19:00",
+    "coste": 12.50
+  }
+]
