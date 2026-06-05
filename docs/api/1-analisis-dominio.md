@@ -28,3 +28,5 @@
 - numero_plazas no puede superar la capacidad del recurso
 - No puede haber dos reservas del mismo recurso a la misma hora
 - La contraseña del usuario **nunca** se devuelve en la API
+
+![Swagger UI](captura-swagger.png)
