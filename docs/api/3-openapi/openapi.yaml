@@ -1,0 +1,170 @@
+openapi: 3.0.3
+
+info:
+  title: API Reservas Deportivas
+  description: API para gestionar reservas de equipamiento deportivo
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+
+components:
+  schemas:
+
+    Reserva:
+      type: object
+      properties:
+        id_reserva_local:
+          type: integer
+          example: 47
+        id_usuario:
+          type: integer
+          example: 12
+        id_recurso:
+          type: integer
+          example: 3
+        numero_plazas:
+          type: integer
+          example: 2
+        fecha:
+          type: string
+          format: date
+          example: "2026-07-10"
+        hora_inicio:
+          type: string
+          example: "10:00"
+        hora_fin:
+          type: string
+          example: "11:30"
+        coste:
+          type: number
+          example: 18.00
+        motivo:
+          type: string
+          example: "Entrenamiento de tenis"
+
+    ReservaInput:
+      type: object
+      required:
+        - id_recurso
+        - numero_plazas
+        - fecha
+        - hora_inicio
+        - hora_fin
+      properties:
+        id_recurso:
+          type: integer
+          example: 3
+        numero_plazas:
+          type: integer
+          example: 2
+        fecha:
+          type: string
+          format: date
+          example: "2026-07-10"
+        hora_inicio:
+          type: string
+          example: "10:00"
+        hora_fin:
+          type: string
+          example: "11:30"
+        motivo:
+          type: string
+          example: "Entrenamiento de tenis"
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Datos incorrectos"
+        detalle:
+          type: string
+          example: "La fecha no puede ser del pasado"
+
+paths:
+
+  /reservas:
+    get:
+      summary: Ver mis reservas
+      responses:
+        "200":
+          description: Lista de reservas del usuario
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reserva"
+        "401":
+          description: No has iniciado sesión
+
+    post:
+      summary: Crear una reserva
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaInput"
+      responses:
+        "201":
+          description: Reserva creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reserva"
+        "400":
+          description: Datos incorrectos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /reservas/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+
+    get:
+      summary: Ver detalle de una reserva
+      responses:
+        "200":
+          description: Detalle de la reserva
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reserva"
+        "404":
+          description: Reserva no encontrada
+
+    patch:
+      summary: Modificar una reserva
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaInput"
+      responses:
+        "200":
+          description: Reserva actualizada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Reserva"
+        "400":
+          description: Datos incorrectos
+        "404":
+          description: Reserva no encontrada
+
+    delete:
+      summary: Eliminar una reserva
+      responses:
+        "204":
+          description: Reserva eliminada
+        "404":
+          description: Reserva no encontrada
